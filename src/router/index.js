@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import WelcomeComponent from '../views/Welcome'
+import ChatroomComponent from '../views/Chatroom'
 
 const routes = [
   {
     path: '/',
     name: 'Welcome',
     component: WelcomeComponent
+  },
+  {
+    path: '/chatroom',
+    name: 'Chatroom',
+    component: ChatroomComponent
   }
 ]
 

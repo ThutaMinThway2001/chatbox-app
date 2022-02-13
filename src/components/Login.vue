@@ -13,7 +13,7 @@ import { ref } from 'vue'
 import useLogin from '../composables/useLogin'
 
 export default {
-    setup(){
+    setup(props, context){
         let email = ref("");
         let password = ref("");
         let {error, loginAccount} = useLogin();
@@ -21,7 +21,7 @@ export default {
         let login = async() => {
           let response = await loginAccount(email.value, password.value);
           if(response){
-            console.log(response)
+            context.emit('enterChatRoom')
           }
         }
 
