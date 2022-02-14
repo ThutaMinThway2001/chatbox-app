@@ -20,21 +20,25 @@
 <script>
 import { ref } from 'vue'
 import getUser from "../composables/getUser";
-import {timestamp} from "../firebase/config"
+import {timestamp} from "../firebase/config";
+import useCollection from '../composables/useCollection'
 export default {
     setup(){
         let message=ref("");
         let {user}=getUser();
-        let Sending = () => {
+        let {error, addDocument} = useCollection("messages");
+
+        let Sending = async() => {
             let chat = {
                 message: message.value,
                 username: user.value.displayName,
                 created_at: timestamp() 
             }
-            console.log(chat);
+            await addDocument(chat)
+            message.value = "";
         }
 
-        return {message, Sending}
+        return {message, Sending, error}
     }
 }
 </script>
