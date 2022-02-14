@@ -1,8 +1,8 @@
 <template>
   <nav>
-      <div>
-          <p>Hi display name</p>
-          <p class="email">logged in as email</p>
+      <div v-if="user">
+          <p>Hi {{user.displayName}} </p>
+          <p class="email">logged in as {{user.email}}</p>
       </div>
       <button @click="logout">Logout</button>
   </nav>
@@ -10,20 +10,20 @@
 
 <script>
 import { ref } from '@vue/reactivity'
-import { auth } from '../firebase/config'
+import useLogout from '../composables/useLogout'
+import { auth } from '../firebase/config';
+import getUser from '../composables/getUser'
+
 export default {
     setup(){
-        let error = ref(null)
+        let {error, logoutAccount} = useLogout();
         let logout = async() => {
-            try{
-                await auth.signOut();
-                console.log('user signout');
-            }catch(err){
-                console.log(err.message);
-            }
+            await logoutAccount();
         }
 
-        return {logout, error}
+        let {user} = getUser();
+
+        return {logout, error, user}
     }
 }
 </script>
